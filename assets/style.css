@@ -1,0 +1,392 @@
+/* ===================================================
+   AUTO ANGEL — tokens
+   =================================================== */
+:root{
+  --bg:#111315;
+  --bg-alt:#171b1e;
+  --surface:#1b1f22;
+  --line:#2a2e32;
+  --text:#eeefec;
+  --text-dim:#9ba1a6;
+  --accent:#e0402f;
+  --accent-dim:#a83023;
+
+  --font-display:'Oswald', sans-serif;
+  --font-body:'Inter', sans-serif;
+
+  --maxw:1180px;
+  --radius:2px;
+  --diag:4vw;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1;margin:0;}
+p{margin:0 0 1em;}
+ul{margin:0;padding:0;list-style:none;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+.skip-link{position:absolute;left:-999px;top:0;background:var(--accent);color:#fff;padding:.6em 1em;z-index:200;}
+.skip-link:focus{left:1rem;top:1rem;}
+
+/* ===================================================
+   Buttons
+   =================================================== */
+.btn{
+  display:inline-flex;align-items:center;gap:.5em;
+  padding:.75em 1.4em;
+  font-family:var(--font-display);
+  font-size:.95rem;letter-spacing:.02em;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  transition:background .15s ease, border-color .15s ease;
+}
+.btn--primary{background:var(--accent);color:#fff;}
+.btn--primary:hover{background:var(--accent-dim);}
+.btn--outline{border-color:var(--line);color:var(--text);background:transparent;}
+.btn--outline:hover{border-color:var(--text-dim);}
+.btn--ghost{color:var(--text-dim);}
+.btn--ghost:hover{color:var(--text);}
+.btn--sm{padding:.5em .9em;font-size:.85rem;}
+
+/* ===================================================
+   Menu mobile — checkbox hack (sem JS)
+   =================================================== */
+.nav-toggle-checkbox{
+  position:absolute;
+  top:0;left:0;
+  width:1px;height:1px;
+  opacity:0;
+  pointer-events:none;
+}
+
+/* ===================================================
+   Masthead
+   =================================================== */
+.masthead{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);
+  border-bottom:1px solid var(--line);
+}
+.masthead__bar{
+  max-width:var(--maxw);margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 1.25rem;
+}
+.brand{display:flex;align-items:center;gap:.6rem;min-width:0;}
+
+/* Logo: preserva a proporção original da imagem (object-fit:contain),
+   evita esticar/cortar, e define uma largura máxima de segurança
+   para telas pequenas. */
+.brand__logo{
+  height:38px;
+  width:auto;
+  max-width:160px;
+  object-fit:contain;
+  object-position:left center;
+}
+.brand__logo--sm{height:26px;max-width:120px;}
+
+.nav{display:flex;gap:1.5rem;}
+.nav a{font-size:.92rem;color:var(--text-dim);}
+.nav a:hover{color:var(--text);}
+
+.masthead__actions{display:flex;align-items:center;gap:.75rem;}
+
+/* Botão hambúrguer — fica acima do overlay do menu e sempre visível,
+   com um fundo próprio de contraste (não depende do que está atrás). */
+.nav__toggle{
+  position:relative;
+  z-index:160;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--surface);
+  border:1px solid var(--line);
+  cursor:pointer;
+}
+.nav__toggle span{
+  width:18px;height:2px;background:var(--text);display:block;
+  transition:transform .2s ease, opacity .2s ease;
+}
+
+/* Anima o ícone para "X" quando o menu está aberto.
+   A checkbox agora vive DENTRO do <header> (irmã de .masthead__bar), por
+   isso o seletor usa ~ .masthead__bar em vez de ~ .masthead — isto evita
+   que o foco no clique "puxe" a página para o topo (ver nota no HTML). */
+.nav-toggle-checkbox:checked ~ .masthead__bar .nav__toggle{
+  background:var(--accent);
+  border-color:var(--accent);
+}
+.nav-toggle-checkbox:checked ~ .masthead__bar .nav__toggle span:nth-child(1){
+  transform:translateY(7px) rotate(45deg);
+}
+.nav-toggle-checkbox:checked ~ .masthead__bar .nav__toggle span:nth-child(2){
+  opacity:0;
+}
+.nav-toggle-checkbox:checked ~ .masthead__bar .nav__toggle span:nth-child(3){
+  transform:translateY(-7px) rotate(-45deg);
+}
+
+/* ===================================================
+   Hero — foto de fundo por trás de um véu escuro
+   =================================================== */
+.hero{
+  position:relative;
+  /* Foto real da fachada da Auto Angel (assets/hero-bg.jpg).
+     A camada da foto usa background-size:contain para nunca cortar
+     nada (o letreiro fica sempre inteiro), enquanto as duas camadas de
+     gradiente (por cima dela, na mesma lista) usam cover para preencher
+     toda a área do hero. background-color preenche qualquer sobra ao
+     lado/em cima da foto quando a proporção do ecrã não é 16:9. */
+  min-height:clamp(420px, 68vh, 680px);
+  background-image:
+    linear-gradient(180deg, rgba(17,19,21,.22) 0%, rgba(17,19,21,.5) 60%, rgba(17,19,21,.88) 100%),
+    radial-gradient(ellipse 900px 500px at 82% 20%, rgba(224,64,47,.15), transparent 60%),
+    url("../assets/hero-bg.jpg");
+  background-repeat:no-repeat, no-repeat, no-repeat;
+  background-size:cover, cover, contain;
+  background-position:center, center, center;
+  background-color:#202124; /* preenche a sobra à volta da foto, sem a cortar */
+  clip-path:polygon(0 0, 100% 0, 100% calc(100% - var(--diag)), 0 100%);
+  overflow:hidden;
+}
+.hero__inner{
+  max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;
+  padding:6rem 1.25rem calc(5.5rem + var(--diag));
+}
+/* Imagem real do hero, usada só no mobile (ver media query 860px);
+   no desktop o fundo continua a ser o background-image do .hero. */
+.hero__photo-mobile{display:none;}
+.hero__eyebrow{color:var(--text-dim);font-size:.85rem;margin-bottom:.75rem;}
+.hero__title{font-size:clamp(2.6rem,7vw,4.6rem);letter-spacing:.01em;margin-bottom:1rem;}
+.hero__lede{max-width:46ch;font-size:1.1rem;color:var(--text-dim);margin-bottom:1.75rem;}
+.hero__actions{display:flex;flex-wrap:wrap;gap:.85rem;margin-bottom:2rem;}
+.hero__meta{display:flex;gap:1.5rem;flex-wrap:wrap;color:var(--text-dim);font-size:.9rem;}
+.hero__meta li{border-left:2px solid var(--accent);padding-left:.6em;}
+
+/* ===================================================
+   Sections — transições diagonais (sem linhas de divisão)
+   inspirado no recorte diagonal usado nos cartões de planos
+   =================================================== */
+.section{max-width:var(--maxw);margin:0 auto;padding:3.5rem 1.25rem;position:relative;}
+.section--narrow{max-width:70ch;}
+.section--alt{background:var(--bg-alt);max-width:none;}
+.section--alt > *{max-width:var(--maxw);margin-left:auto;margin-right:auto;}
+
+.section--diag{
+  clip-path:polygon(0 var(--diag), 100% 0, 100% calc(100% - var(--diag)), 0 100%);
+  margin-top:calc(var(--diag) * -1);
+  padding-top:calc(var(--diag) + 3rem);
+  padding-bottom:calc(var(--diag) + 2rem);
+}
+.section--alt.section--diag{max-width:none;}
+
+.section__head{max-width:var(--maxw);margin:0 auto 2rem;}
+.section__head h2{font-size:1.9rem;margin-bottom:.4rem;}
+.section__sub{color:var(--text-dim);}
+
+/* ===================================================
+   Pesquisa
+   =================================================== */
+.search-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.75rem;}
+.search-input{
+  flex:1 1 260px;background:var(--surface);border:1px solid var(--line);color:var(--text);
+  padding:.7em .9em;border-radius:var(--radius);
+}
+
+/* ===================================================
+   Estados vazios / grelhas
+   =================================================== */
+.vehicles-grid,.posts-grid{display:grid;gap:1.5rem;}
+.state-msg{color:var(--text-dim);padding:2rem;text-align:center;border:1px dashed var(--line);border-radius:var(--radius);}
+.state-msg--inline{margin-top:1.5rem;padding:1rem;text-align:left;font-size:.85rem;}
+
+/* ===================================================
+   Peças & acessórios
+   =================================================== */
+.parts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;}
+.part-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.part-card__photo{aspect-ratio:4/3;position:relative;overflow:hidden;background:var(--bg-alt);}
+.part-card__photo::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.15), transparent 60%);
+}
+.part-card__photo--headlight{background:radial-gradient(ellipse at 60% 45%, #fff7dd 0%, #f4c542 28%, #6b4b00 65%, #171b1e 100%);}
+.part-card__photo--battery{background:linear-gradient(135deg, #2b2f33 0%, #1b1f22 55%, var(--accent) 130%);}
+.part-card__photo--tire{background:radial-gradient(circle at 50% 50%, #3a3d40 0 30%, #111315 32% 46%, #3a3d40 48% 100%);}
+.part-card__photo--parts{background:linear-gradient(160deg, #303539 0%, #1b1f22 60%), radial-gradient(circle at 75% 25%, rgba(224,64,47,.35), transparent 50%);}
+.part-card__name{font-family:var(--font-display);font-size:1.05rem;padding:1rem 1.1rem 0;}
+.part-card__links{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1.1rem 1.1rem;gap:.75rem;}
+.part-card__more{color:var(--accent);font-size:.9rem;}
+.part-card__more:hover{color:var(--text);}
+.part-card__zap{font-size:.8rem;color:var(--text-dim);border:1px solid var(--line);border-radius:999px;padding:.3em .8em;}
+.part-card__zap:hover{color:var(--text);border-color:var(--text-dim);}
+.parts-cta{margin-top:1.5rem;color:var(--text-dim);}
+.parts-cta a{color:var(--accent);}
+.parts-cta a:hover{color:var(--text);}
+
+/* ===================================================
+   Contactos
+   =================================================== */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-bottom:2rem;}
+.contact-card{
+  display:block;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:1.4rem;text-align:left;
+  transition:border-color .15s ease;
+}
+.contact-card:hover{border-color:var(--accent);}
+.contact-card__label{display:block;font-family:var(--font-display);font-size:1.05rem;margin-bottom:.3rem;}
+.contact-card__desc{display:block;color:var(--text-dim);font-size:.9rem;}
+.address-block{display:flex;flex-wrap:wrap;gap:2.5rem;color:var(--text-dim);font-size:.9rem;}
+.address-block strong{color:var(--text);}
+
+/* ===================================================
+   Rodapé
+   =================================================== */
+.footer{border-top:1px solid var(--line);margin-top:2rem;background:var(--bg-alt);}
+.footer__inner{
+  max-width:var(--maxw);margin:0 auto;padding:3rem 1.25rem;
+  display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;
+  align-items:start;
+}
+.footer__info{color:var(--text-dim);font-size:.85rem;}
+.footer__info p{margin:0 0 .4rem;}
+
+/* Canais / redes sociais */
+.footer__channels-label{
+  margin:1.5rem 0 .75rem;color:var(--text-dim);
+  font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+}
+.footer__socials{display:flex;flex-wrap:wrap;gap:.6rem;}
+.footer__social{
+  display:inline-flex;align-items:center;gap:.5em;
+  padding:.5em .9em;border:1px solid var(--line);border-radius:999px;
+  color:var(--text-dim);font-size:.82rem;background:var(--surface);
+  transition:border-color .15s ease, color .15s ease;
+}
+.footer__social svg{width:16px;height:16px;flex:none;}
+.footer__social:hover{color:var(--text);border-color:var(--accent);}
+
+/* Mapa */
+.footer__map{
+  border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;background:var(--surface);aspect-ratio:16/10;
+}
+.footer__map iframe{width:100%;height:100%;border:0;display:block;}
+
+@media (max-width:760px){
+  .footer__inner{grid-template-columns:1fr;gap:1.75rem;}
+}
+
+/* ===================================================
+   WhatsApp flutuante
+   =================================================== */
+.fab-whatsapp{
+  position:fixed;right:1.25rem;bottom:1.25rem;z-index:90;
+  width:54px;height:54px;border-radius:50%;
+  background:#25D366;color:#fff;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.35);
+}
+
+/* ===================================================
+   Painéis :target (sem JS) — favoritos / chat
+   =================================================== */
+.target-panel{
+  position:fixed;inset:0;background:rgba(10,11,12,.75);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:1.25rem;
+}
+.target-panel:target{display:flex;}
+.target-panel__box{
+  position:relative;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:2rem;max-width:420px;width:100%;
+}
+.target-panel__close{position:absolute;top:.9rem;right:.9rem;color:var(--text-dim);font-size:1.1rem;}
+.target-panel__close:hover{color:var(--text);}
+.target-panel__box h3{font-size:1.3rem;margin-bottom:.5rem;}
+
+/* ===================================================
+   Responsivo
+   =================================================== */
+@media (max-width: 860px){
+  /* Painel do menu: transparente (deixa o conteúdo por trás visível),
+     com um leve desfoque só para manter o texto legível. O botão
+     hambúrguer/"X" tem fundo próprio (ver .nav__toggle acima) e por
+     isso continua visível mesmo com o menu transparente por baixo.
+     Fechar: ao clicar num link (JS) ou em qualquer espaço vazio dentro
+     do próprio .nav (JS, ver index.html) — não precisa de tocar no X. */
+  .nav{
+    position:fixed;top:64px;left:0;right:0;bottom:0;z-index:150;
+    background:rgba(17,19,21,.45);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    flex-direction:column;gap:0;padding:1rem 1.25rem;
+    transform:translateY(-8px);opacity:0;pointer-events:none;
+    transition:opacity .15s ease, transform .15s ease;
+  }
+  .nav-toggle-checkbox:checked ~ .masthead__bar .nav{
+    opacity:1;transform:translateY(0);pointer-events:auto;
+  }
+  .nav a{
+    padding:.9rem 0;border-bottom:1px solid var(--line);
+    text-shadow:0 1px 3px rgba(0,0,0,.6); /* mantém legibilidade sobre o fundo transparente */
+  }
+  .nav__toggle{display:flex;}
+  .btn--ghost span{display:none;}
+  .brand__logo{max-width:130px;}
+
+  /* ---- Hero no mobile ----
+     A versão mobile passa a usar uma <img> real (assets/hero-bg.jpg,
+     ver .hero__photo-mobile) em vez do background-image do desktop.
+     Vantagens: a foto fica sempre colada ao cabeçalho (sem margem) e
+     empurra o texto para baixo dela de forma garantida — sem overlay
+     escuro por cima, já que o texto deixa de sobrepor a imagem.
+     Só o parágrafo (.hero__lede) continua visível abaixo da foto;
+     eyebrow, título, botões e a lista de horário/telefone somem no
+     mobile (o letreiro da própria foto já mostra "AUTO ANGEL"). */
+  .hero{
+    background-image:none;
+    background-color:var(--bg);
+    min-height:0;
+    clip-path:polygon(0 0, 100% 0, 100% calc(100% - var(--diag)), 0 100%);
+  }
+  .hero__photo-mobile{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+  .hero__eyebrow,
+  .hero__title,
+  .hero__actions,
+  .hero__meta{
+    display:none;
+  }
+  .hero__inner{
+    padding:1.5rem 1.25rem calc(2.25rem + var(--diag));
+  }
+  .hero__lede{
+    margin-bottom:0;
+    max-width:none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{transition:none !important;}
+}
