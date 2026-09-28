@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auto Angel — Portal Automóvel</title>
+<meta name="description" content="Auto Angel — veículos, peças e atendimento automóvel em Luanda.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a href="#conteudo" class="skip-link">Saltar para o conteúdo</a>
+
+<!-- ===== CABEÇALHO ===== -->
+<header class="masthead" id="topo">
+  <!-- Checkbox-hack: controla o menu mobile sem JavaScript.
+       Fica DENTRO do header (que é sticky/sempre visível) de propósito:
+       antes estava solta no topo do <body> e, ao ganhar foco no clique,
+       o navegador "puxava" a página inteira até ela — por isso o menu
+       parecia sempre levar você de volta ao início da página. Aqui
+       dentro ela já está sempre em vista, então isso não acontece mais. -->
+  <input type="checkbox" id="navToggle" class="nav-toggle-checkbox">
+  <div class="masthead__bar">
+    <a href="#topo" class="brand" aria-label="Auto Angel — página inicial">
+      <img src="assets/logo.png" alt="Auto Angel" class="brand__logo">
+    </a>
+
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#topo">Início</a>
+      <a href="#veiculos">Peças</a>
+      <a href="#pecas">Peças &amp; Acessórios</a>
+      <a href="#novidades">Notícias</a>
+      <a href="#contactos">Contactos</a>
+    </nav>
+
+    <div class="masthead__actions">
+      <a class="btn btn--ghost btn--sm" href="#" id="btnAbrirFavoritos" aria-haspopup="dialog" aria-controls="favoritosModal" aria-label="Meus favoritos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2 4.5 5.5 4c2-.3 3.8.8 4.9 2.4C11.5 4.8 13.3 3.7 15.3 4c3.5.5 5 4 3.5 7.7C16.3 16.4 12 21 12 21Z"/></svg>
+        <span>Favoritos</span>
+        <span class="badge-count" id="favCount" hidden>0</span>
+      </a>
+      <label for="navToggle" class="nav__toggle" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </label>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+
+  <!-- ===== HERO — foto de fundo suave por trás de um véu escuro ===== -->
+  <section class="hero">
+    <img src="assets/hero-bg.jpg" alt="Fachada da Auto Angel na Rua Machado Saldanha, Luanda" class="hero__photo-mobile">
+    <div class="hero__inner">
+      <div class="hero__top">
+        <p class="hero__eyebrow">Rua Machado Saldanha, Luanda</p>
+        <h1 class="hero__title">AUTO ANGEL</h1>
+      </div>
+      <div class="hero__bottom">
+        <p class="hero__lede">O seu ponto de referência automóvel em Luanda — veículos, peças e atendimento direto, todos os dias da semana.</p>
+        <div class="hero__actions">
+          <a href="#veiculos" class="btn btn--primary">Ver Peças</a>
+          <a href="https://wa.me/244930297768?text=Ol%C3%A1%20Auto%20Angel%2C%20encontrei%20o%20vosso%20site%20e%20gostaria%20de%20obter%20informa%C3%A7%C3%B5es%20sobre%20um%20produto%20ou%20servi%C3%A7o." target="_blank" rel="noopener" class="btn btn--outline">Falar com a Auto Angel</a>
+        </div>
+        <ul class="hero__meta">
+          <li>Segunda a Domingo, 07:00–17:00</li>
+          <li>+244 930 297 768</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PEÇAS ===== -->
+  <section class="section" id="veiculos">
+    <div class="section__head">
+      <h2>Peças em destaque</h2>
+      <p class="section__sub">Catálogo atualizado diretamente pela Auto Angel.</p>
+    </div>
+
+    <!-- Pesquisa: filtra Veículos, Peças e Novidades ao mesmo tempo,
+         automaticamente enquanto escreve (sem botão, sem recarregar). -->
+    <form class="search-row" id="formPesquisa" role="search" aria-label="Pesquisar" onsubmit="return false;">
+      <input type="search" name="q" id="inputPesquisa" class="search-input" placeholder="Pesquisar veículos, peças ou novidades...">
+    </form>
+
+    <div class="vehicles-grid" id="veiculosGrid" aria-live="polite">
+      <p class="state-msg" id="veiculosState">A carregar veículos...</p>
+    </div>
+  </section>
+
+  <!-- ===== PEÇAS & ACESSÓRIOS ===== -->
+  <section class="section section--diag section--alt" id="pecas">
+    <div class="section__head">
+      <h2>Peças &amp; acessórios automóveis</h2>
+      <p class="section__sub">Vendemos peças para o seu veículo — faróis, baterias, pneus, peças de motor e outros componentes.</p>
+    </div>
+
+    <div class="parts-grid" id="pecasGrid" aria-live="polite">
+      <p class="state-msg" id="pecasState">A carregar peças...</p>
+    </div>
+
+    <p class="parts-cta">Não encontrou a peça que precisa?
+      <a href="https://wa.me/244930297768?text=Ol%C3%A1%20Auto%20Angel%2C%20procuro%20uma%20pe%C3%A7a%20que%20n%C3%A3o%20encontrei%20no%20site." target="_blank" rel="noopener">Fale connosco pelo WhatsApp</a>.
+    </p>
+  </section>
+
+  <!-- ===== NOVIDADES ===== -->
+  <section class="section section--diag" id="novidades">
+    <div class="section__head">
+      <h2>Novidades &amp; publicações</h2>
+      <p class="section__sub">Conteúdos e informações partilhadas pela Auto Angel.</p>
+    </div>
+    <div class="posts-grid" id="novidadesGrid" aria-live="polite">
+      <p class="state-msg" id="novidadesState">A carregar publicações...</p>
+    </div>
+  </section>
+
+  <!-- ===== SOBRE ===== -->
+  <section class="section section--diag section--alt section--narrow" id="sobre">
+    <h2>Sobre a Auto Angel</h2>
+    <p>A Auto Angel presta atendimento automóvel em Luanda, Angola, com veículos e peças disponíveis para consulta e contacto direto através de WhatsApp, chat privado ou ligação.</p>
+  </section>
+
+  <!-- ===== CONTACTOS ===== -->
+  <section class="section section--diag" id="contactos">
+    <div class="section__head">
+      <h2>Falar com a Auto Angel</h2>
+      <p class="section__sub">Escolha a forma de contacto mais conveniente.</p>
+    </div>
+
+    <div class="contact-grid">
+      <button type="button" class="contact-card" id="btnAbrirChat" aria-haspopup="dialog" aria-controls="chatPanel">
+        <span class="contact-card__label">Chat privado</span>
+        <span class="contact-card__desc">Converse diretamente com a Auto Angel, em tempo real, dentro do site.</span>
+      </button>
+
+      <a class="contact-card" href="https://wa.me/244930297768?text=Ol%C3%A1%20Auto%20Angel%2C%20encontrei%20o%20vosso%20site%20e%20gostaria%20de%20obter%20informa%C3%A7%C3%B5es%20sobre%20um%20produto%20ou%20servi%C3%A7o." target="_blank" rel="noopener">
+        <span class="contact-card__label">WhatsApp</span>
+        <span class="contact-card__desc">+244 930 297 768</span>
+      </a>
+
+      <a class="contact-card" href="tel:+244930297768">
+        <span class="contact-card__label">Ligação</span>
+        <span class="contact-card__desc">+244 930 297 768</span>
+      </a>
+    </div>
+
+    <div class="address-block">
+      <p><strong>Morada</strong><br>Rua Machado Saldanha, Luanda, Angola</p>
+      <p><strong>Horário</strong><br>Segunda a Domingo, 07:00–17:00</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== RODAPÉ ===== -->
+<footer class="footer" id="rodape">
+  <div class="footer__inner">
+
+    <div class="footer__info">
+      <p>Rua Machado Saldanha, Luanda, Angola · +244 930 297 768</p>
+      <p>Segunda a Domingo, 07:00–17:00</p>
+
+      <p class="footer__channels-label">Nossos canais</p>
+      <div class="footer__socials">
+        <a class="footer__social" href="mailto:autoangel632@gmail.com" aria-label="Enviar email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          Email
+        </a>
+        <a class="footer__social" href="https://www.instagram.com/autoangel" target="_blank" rel="noopener" aria-label="Instagram da Auto Angel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <a class="footer__social" href="https://www.tiktok.com/@autoangel" target="_blank" rel="noopener" aria-label="TikTok da Auto Angel">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2h-3v13.2a2.8 2.8 0 1 1-2-2.68V9.4a5.8 5.8 0 1 0 5 5.75V8.9a7.6 7.6 0 0 0 4.5 1.46V7.36A4.6 4.6 0 0 1 16.5 2Z"/></svg>
+          TikTok
+        </a>
+        <a class="footer__social" href="https://x.com/autoangel" target="_blank" rel="noopener" aria-label="X (Twitter) da Auto Angel">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3l7.5 9.4L3.3 21h2.4l6-6.6 4.6 6.6H21l-7.9-10 6.9-8H17.6l-5.4 6L7.6 3H3Z"/></svg>
+          Twitter/X
+        </a>
+      </div>
+      <p class="footer__channels-label" style="margin-top:1rem;font-size:.72rem;">
+        Substitua os links do Instagram, TikTok e X pelos endereços reais dos perfis da Auto Angel assim que os tiver.
+      </p>
+    </div>
+
+    <div class="footer__map">
+      <iframe
+        src="https://www.google.com/maps?q=Rua+Machado+Saldanha,+Luanda,+Angola&output=embed"
+        title="Localização da Auto Angel no Google Maps"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen></iframe>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Botão flutuante WhatsApp -->
+<a href="https://wa.me/244930297768?text=Ol%C3%A1%20Auto%20Angel%2C%20encontrei%20o%20vosso%20site%20e%20gostaria%20de%20obter%20informa%C3%A7%C3%B5es%20sobre%20um%20produto%20ou%20servi%C3%A7o." target="_blank" rel="noopener" class="fab-whatsapp" aria-label="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20Zm4.4-5.9c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.4c.1.2 1.6 2.5 4 3.4.5.2 1 .4 1.3.5.5.2 1 .1 1.4 0 .4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3Z"/></svg>
+</a>
+
+<!-- ===== NOVO — MODAL FAVORITOS (widget carregado dentro da mesma página) ===== -->
+<div class="modal" id="favoritosModal" role="dialog" aria-modal="true" aria-labelledby="favoritosTitulo" hidden>
+  <div class="modal__backdrop" data-fechar-favoritos></div>
+  <div class="modal__box">
+    <button type="button" class="modal__close" data-fechar-favoritos aria-label="Fechar favoritos">✕</button>
+    <h3 id="favoritosTitulo">Os meus favoritos</h3>
+    <!-- Recebe favoritos.html (criado à parte) via fetch(); enquanto não
+         existir, mostra a lista de reserva já ligada ao Supabase. -->
+    <div id="favoritosWidgetHost"></div>
+  </div>
+</div>
+
+<!-- ===== NOVO — PAINEL CHAT PRIVADO EM TEMPO REAL ===== -->
+<div class="modal" id="chatPanel" role="dialog" aria-modal="true" aria-labelledby="chatTitulo" hidden>
+  <div class="modal__backdrop" data-fechar-chat></div>
+  <div class="modal__box modal__box--chat">
+    <button type="button" class="modal__close" data-fechar-chat aria-label="Fechar chat">✕</button>
+    <h3 id="chatTitulo">Atendimento privado</h3>
+
+    <form id="formLogin" class="login-form">
+      <p class="login-form__hint">Identifique-se para guardar favoritos e continuar a conversa em qualquer visita.</p>
+      <input type="text" name="nome" placeholder="O seu nome" required autocomplete="name">
+      <input type="tel" name="telefone" placeholder="Telefone (ex: 923000000)" required autocomplete="tel">
+      <input type="password" name="senha" placeholder="Palavra-passe" required autocomplete="current-password">
+      <button type="submit" class="btn btn--primary btn--sm">Entrar / Criar conta</button>
+      <p class="login-form__erro" id="loginErro" hidden></p>
+    </form>
+
+    <div class="chat-box" id="chatBox" hidden>
+      <div class="chat-box__mensagens" id="chatMensagens" aria-live="polite"></div>
+      <form class="chat-box__form" id="formChat">
+        <input type="text" id="chatInput" placeholder="Escreva a sua mensagem..." autocomplete="off" required>
+        <button type="submit" class="btn btn--primary btn--sm">Enviar</button>
+      </form>
+      <button type="button" class="chat-box__sair" id="btnSair">Sair da conta</button>
+    </div>
+  </div>
+</div>
+
+<!-- Fecha o menu mobile automaticamente:
+     1) ao clicar em qualquer link do menu (navega e fecha);
+     2) ao clicar num espaço vazio dentro do painel do menu, sem precisar
+        de tocar no botão "X" no topo.
+     Sem isto, o overlay transparente ficava "preso" por cima do conteúdo. -->
+<script>
+  var navToggle = document.getElementById('navToggle');
+  var navPanel = document.querySelector('.nav');
+
+  document.querySelectorAll('.nav a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (navToggle) navToggle.checked = false;
+    });
+  });
+
+  if (navPanel) {
+    navPanel.addEventListener('click', function (e) {
+      // Só fecha se o clique foi no espaço vazio do painel, não num link.
+      if (e.target === navPanel && navToggle) {
+        navToggle.checked = false;
+      }
+    });
+  }
+</script>
+
+<!-- Supabase + configuração + lógica da aplicação (tempo real) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
